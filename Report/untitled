@@ -1,0 +1,41 @@
+\title{Trending Topics using the Twitter-API}
+\author{
+        Marco Pock-Steen Fraile \\
+        IT University of Copenahgen\\
+        	
+        Christian Palmh\oe j Nielsen \\
+
+}
+\date{\today}
+
+\documentclass[12pt]{article}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose a graphical authentication system based on object selection in a photograph using eye tracking..
+\end{abstract}
+
+\section{Introduction}
+Eye tracking is a way to interact with a computer using only the eyes. In recent years more gaze based interaction systems have been proven as an effective and viable alternative to more common humam-computer interaction methods. However accurate eye tracking systems are still expensive and often feels invasive to the user because he has to use a setup where the camera is close enough to the eye to obtain high-quality pictures of the eyes. In recent years more high definition everyday use cameras are coming to the market. E.g. most smartphones and tablets have a front facing camera which give possibilities for interaction using head gestures/eye tracking. While most smartphone and tablets don't support eye tracking out of the box without combining them with 3rd party devices such as infrared light diodes, it is thinkable that the technology could be readily available in the near future. This project seeks to find out if eye tracking can be used as an alternative to commonly used authentication systems such as password or pin number based systems on tablets and computers. 
+
+\paragraph{Outline}
+The remainder of this article is organized as follows.
+Section~\ref{related work} gives account of previous work.
+Our new and exciting results are described in Section~\ref{results}.
+Finally, Section~\ref{conclusions} gives the conclusions.
+
+\section{Related work}\label{related work}
+
+\section{Results}\label{results}
+In this section we describe the results.
+
+\section{Conclusions}\label{conclusions}
+We worked hard, and achieved very little.
+
+\bibliographystyle{abbrv}
+\bibliography{simple}
+
+\end{document}
+This is never printed

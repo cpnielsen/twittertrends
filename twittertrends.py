@@ -5,9 +5,16 @@ from streamlistener import StdOutListener
 
 class TwitterTrends:
 
-	def __init__(self, streamListener):
-		self.streamListener = streamListener
+	def __init__(self):
+		#initiate the reuqired authentication
+		self.auth = OAuthHandler(consumer_key, consumer_secret)
+		self.auth.set_access_token(access_token, access_token_secret)
+
 		self.trendingtopics = []
+
+		self.l = StdOutListener(self)
+		self.stream = Stream(self.auth, self.l)
+		self.stream.filter(track=['*'])
 
 	def trendingtopics(self):
 		# Read data stream from streamListener and find trending topics
@@ -21,9 +28,12 @@ class TwitterTrends:
 		#use an algorithm to find distinct/rising topics
 		return "#itu, #obama, #sad2"
 
-	def newtweet(self):
+	def newtweet(self, message, topic, time, user):
 		#callback from listener, create new tweet
-		return ""
+		tweet = Tweet(message, topic, time, user)
+		self.trendingtopics.append(tweet)
+
+		print "New tweet!"
 
 class Tweet:
 	def __init__(self, message, topic, time, user):
@@ -31,6 +41,17 @@ class Tweet:
 		self.topic = topic
 		self.time = time
 		self.user = user
+
+# class TwitterAuth:
+# 	consumer_key="2XhwGwTJefx4aD2xdo4UoQ"
+# 	consumer_secret="yX5WYFz9LugOWyMgtkv4iWOvhBjGGZStmA61icFyi4"
+
+# 	access_token="21019503-cKlNTqPehUAlyFR1FqcqjXPVK57xf3Jz4uEEk7pUz"
+# 	access_token_secret="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
+
+# 	def __init__(self):
+# 		self.auth = OAuthHandler(consumer_key, consumer_secret)
+#     	self.auth.set_access_token(access_token, access_token_secret)
 
 # Go to http://dev.twitter.com and create an app. 
 # The consumer key and secret will be generated for you after
@@ -43,11 +64,9 @@ access_token="21019503-cKlNTqPehUAlyFR1FqcqjXPVK57xf3Jz4uEEk7pUz"
 access_token_secret="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
 
 if __name__ == '__main__':
-    l = StdOutListener()
-    auth = OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-
-    stream = Stream(auth, l)
-    stream.filter(track=['*'])
-
-    trends = TwitterTrends(stream)
+    # l = StdOutListener()
+    # auth = OAuthHandler(consumer_key, consumer_secret)
+    # auth.set_access_token(access_token, access_token_secret)
+    # stream = Stream(auth, l)
+    # stream.filter(track=['*'])
+    trends = TwitterTrends()

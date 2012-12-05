@@ -1,0 +1,19 @@
+# Fdb version 3
+["bibtex simple"] 1354659746 "simple.aux" "simple.bbl" "simple" 
+  "/usr/local/texlive/2011/texmf-dist/bibtex/bst/base/abbrv.bst" 1292289607 20329 b5fed53e10044d0f8112183785c759b1 ""
+  "simple.aux" 1354659746 871 b987af15738f7580630d9ff21fca411b ""
+  "simple.bcf" 0 -1 0 ""
+  "simple.bib" 0 -1 0 ""
+  (generated)
+  "simple.blg"
+  "simple.bbl"
+["pdflatex"] 1354659746 "simple.tex" "simple.pdf" "simple" 
+  "/usr/local/texlive/2011/texmf-dist/tex/latex/base/article.cls" 1254151887 20571 b8bd218bf2e18b4f5817ee643cd9c515 ""
+  "/usr/local/texlive/2011/texmf-dist/tex/latex/base/size12.clo" 1254151887 9053 a28d9b3c915d12545f3d5e7c4986be20 ""
+  "simple.aux" 1354659746 871 b987af15738f7580630d9ff21fca411b ""
+  "simple.bbl" 0 -1 0 "bibtex simple"
+  "simple.tex" 1354659742 1966 a3786d0302c8396fcf0814be38dd59bf ""
+  (generated)
+  "simple.pdf"
+  "simple.log"
+  "simple.aux"
