@@ -36,3 +36,9 @@ nosetests.xml
 
 # Mac
 .DS_Store
+
+# Latex
+*.aux
+Report/*.log
+*.gz
+*.fdb_latexmk
