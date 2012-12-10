@@ -120,7 +120,7 @@ class TwitterTrends(StreamListener):
             # Only include tweets that has a "topic", in this case one or more hashtags
             if "entities" in processed:
                 if len(processed['entities']['hashtags']) > 0:
-                    tags = ["#" + t['text'] for t in processed['entities']['hashtags']]
+                    tags = ["#" + t['text'].lower() for t in processed['entities']['hashtags']]
                     user = processed['user']['screen_name']
                     text = processed['text']
                     time = processed['created_at']
@@ -130,6 +130,8 @@ class TwitterTrends(StreamListener):
                     for subscriber in self.subscribers:
                         subscriber.on_tweet(tweet)
 
+        if len(self.subscribers) == 0:
+            self.stop()
 
     def on_error(self, error):
         print u"Error occurred: %s" % error
@@ -158,15 +160,7 @@ if __name__ == '__main__':
     trendtopics = TrendingTopics(250)
     topiccounter1 = SimpleTopicCounter(60, trends)
     topiccounter24 = SimpleTopicCounter(1440, trends)
-    trends.add_subscriber(trendtopics)
     trends.add_subscriber(topiccounter1)
     trends.add_subscriber(topiccounter24)
     #trends.add_subscriber(SimpleTweetWriter())
     trends.start()
-
-    while True:
-        try:
-            time.sleep(10)
-        except (KeyboardInterrupt, SystemExit):
-            trends.stop()
-            print "Done"
