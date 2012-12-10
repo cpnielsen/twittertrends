@@ -30,6 +30,8 @@ class SimpleTopicCounter:
         self.runningtime = minutes
         self.topics = {}
         self.targettime = time.time() + (minutes * 60)
+        #self.targettime = time.time() + 10
+        self.counter = 0
 
     def on_tweet(self, tweet):
         if time.time() > self.targettime:
@@ -39,10 +41,13 @@ class SimpleTopicCounter:
                 self.topics[tag] = self.topics[tag] + 1
             else:
                 self.topics[tag] = 1
+
+        self.counter = self.counter + 1
         #print u'%s: %s - %s' % (tweet.user, tweet.message, ', '.join(tweet.topics))
 
     def writefile(self):
         self.f = open(FILENAME_COUNT + str(self.runningtime) + ".txt", 'w')
+        self.f.write('--- Total number of tweets in %d minutes: %d --- \n' % (self.runningtime, self.counter))
         sorted_topics = sorted(self.topics.iteritems(), key=operator.itemgetter(1))
         sorted_topics.reverse()
 
@@ -151,9 +156,11 @@ if __name__ == '__main__':
     # stream.filter(track=['*'])
     trends = TwitterTrends()
     trendtopics = TrendingTopics(250)
-    topiccounter = SimpleTopicCounter(120, trends)
+    topiccounter1 = SimpleTopicCounter(60, trends)
+    topiccounter24 = SimpleTopicCounter(1440, trends)
     trends.add_subscriber(trendtopics)
-    trends.add_subscriber(topiccounter)
+    trends.add_subscriber(topiccounter1)
+    trends.add_subscriber(topiccounter24)
     #trends.add_subscriber(SimpleTweetWriter())
     trends.start()
 
