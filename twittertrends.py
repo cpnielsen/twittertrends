@@ -99,7 +99,7 @@ class TwitterTrends(StreamListener):
         self.subscribers.append(subscriber)
 
     def start(self, topics=['*']):
-        self.stream.sample()
+        self.stream.sample(async=True)
 
     def stop(self):
         self.stream.disconnect()
@@ -117,3 +117,10 @@ if __name__ == '__main__':
     trends.add_subscriber(trendtopics)
     #trends.add_subscriber(SimpleTweetWriter())
     trends.start()
+
+    while True:
+        try:
+            time.sleep(10)
+        except (KeyboardInterrupt, SystemExit):
+            trends.stop()
+            print "Done"
