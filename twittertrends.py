@@ -11,6 +11,8 @@ CONSUMER_SECRET="yX5WYFz9LugOWyMgtkv4iWOvhBjGGZStmA61icFyi4"
 ACCESS_TOKEN="21019503-cKlNTqPehUAlyFR1FqcqjXPVK57xf3Jz4uEEk7pUz"
 ACCESS_TOKEN_SECRET="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
 
+FILENAME_COUNT = "simplecount"
+
 class Tweet:
     def __init__(self, message, topics, time, user):
         self.message = message
@@ -21,6 +23,38 @@ class Tweet:
 class SimpleTweetWriter:
     def on_tweet(self, tweet):
         print u'%s: %s - %s' % (tweet.user, tweet.message, ', '.join(tweet.topics))
+
+class SimpleTopicCounter:
+    def __init__(self, minutes, twittertrends):
+        self.client = twittertrends
+        self.runningtime = minutes
+        self.topics = {}
+        self.targettime = time.time() + (minutes * 60)
+
+    def on_tweet(self, tweet):
+        if time.time() > self.targettime:
+            self.writefile()
+        for tag in tweet.topics:
+            if tag in self.topics:
+                self.topics[tag] = self.topics[tag] + 1
+            else:
+                self.topics[tag] = 1
+        #print u'%s: %s - %s' % (tweet.user, tweet.message, ', '.join(tweet.topics))
+
+    def writefile(self):
+        self.f = open(FILENAME_COUNT + str(self.runningtime) + ".txt", 'w')
+        sorted_topics = sorted(self.topics.iteritems(), key=operator.itemgetter(1))
+        sorted_topics.reverse()
+
+        for x in xrange(len(self.topics)):
+            try:
+                self.f.write(u'%d: %s' % (sorted_topics[x][1], sorted_topics[x][0]) + '\n')
+            except UnicodeEncodeError:
+                pass
+
+        self.f.close()
+        self.client.remove_subscriber(self)
+        print 'Topic counter: %d minutes collected' % self.runningtime
 
 class TrendingTopics:
     def __init__(self, buckets):
@@ -98,6 +132,9 @@ class TwitterTrends(StreamListener):
     def add_subscriber(self, subscriber):
         self.subscribers.append(subscriber)
 
+    def remove_subscriber(self, subscriber):
+        self.subscribers.remove(subscriber)
+
     def start(self, topics=['*']):
         self.stream.sample(async=True)
 
@@ -114,7 +151,9 @@ if __name__ == '__main__':
     # stream.filter(track=['*'])
     trends = TwitterTrends()
     trendtopics = TrendingTopics(250)
+    topiccounter = SimpleTopicCounter(120, trends)
     trends.add_subscriber(trendtopics)
+    trends.add_subscriber(topiccounter)
     #trends.add_subscriber(SimpleTweetWriter())
     trends.start()
 
