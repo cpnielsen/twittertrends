@@ -44,3 +44,4 @@ nosetests.xml
 *.bbl
 *.gz
 *.fdb_latexmk
+*.pdf
