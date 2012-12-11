@@ -1,0 +1,22 @@
+Outline:
+
+- Introduction
+- Twitter og Topics
+- Streaming algorithms
+  - Introduction
+  - Goals
+  - Finding frequent items
+    (- Space and run-time analysis)
+  - Finding distinct items
+    (- Space and run-time analysis)
+  - Adjusting algorithms for our input
+    - Determine k for Misra-Gries
+    - Determine good hash function for tweets
+- Results
+  - Findings
+  - Twitter comparison
+- Discussion
+  - Deviation in results
+  - Trending vs Popular
+  - Effects of counting distinct tweets
+- Conclusion
