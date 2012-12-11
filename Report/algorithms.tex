@@ -20,11 +20,12 @@ Other examples of the usages of data stream algorithms are described in this cha
 \subsection{Implementation of algorithms}
 
 \subsubsection{Misra-Gries Algorithm}\label{misra-gries}
-The algorithm first initializes a dictionary with $k$ number of values. The keys in the dictionary are elements seen in the stream, and the value are counters associated with the elements. Then there is a process function that is executed each time we see a new element. If a new element is already in the dictionary, it's value will be increased by 1, otherwise if the number of elements in $A$ is less than $k$, the element will be inserted an its value set to 1. If the length of $A$ is equal to $k$, all values are decreased by 1, and removed if the value is equal to 0 \cite{Amit}.Finally we return the key value pairs with the highest frequencies.
+The algorithm first initializes a dictionary with $k$ number of values. The keys in the dictionary are elements seen in the stream, and the value are counters associated with the elements. Then there is a process function that is executed each time we see a new element. If a new element is already in the dictionary, it's value will be increased by 1, otherwise if the number of elements in $A$ is less than $k$, the element will be inserted an its value set to 1. If the length of $A$ is equal to $k$, all values are decreased by 1, and removed if the value is equal to 0 \cite{Amit}. Finally we return the key value pairs with the highest frequencies.
+
+We use Misra-Gries to find frequent $topics$ in our data stream of tweets using a one-pass algorithm, see pseudo-code \ref{misra-pseudo} for details.
 \begin{algorithm}
-\caption{Misra-Gries Algorithm}
-We use Misra-Gries to find frequent $topics$ in our data stream of tweets using a one-pass algorithm.
-\begin{algorithmic}
+\caption{Misra-Gries Algorithm}\label{misra-pseudo}
+\begin{algorithmic}[1]
 \State $A\gets Initialize Array$
 
 \Function{Process}{$j$}
@@ -43,9 +44,9 @@ We use Misra-Gries to find frequent $topics$ in our data stream of tweets using 
 \end{algorithmic}
 \end{algorithm}
 \subsubsection{Data structure}
-When a new tweet is registered the algorithm has to determine if the contained topic has already been seen. We need a data structure that provides fast lookup, such as a dictionary with key-value pair as topic-frequency. We also need to find a data structure that allows for decrementing all values by 1 if the topic is not already created. Lastly we will have to find a way to randomly remove a topic if the data structure exceeds k at the creation of a new topic.
+When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation.
 
-\subsubsection{Data set}
+\subsubsection{Data set}\label{algo-data}
 
-\subsubsection{Analysis of algorithm}
-
+\subsubsection{Analysis of algorithm}\label{algo-analysis}
+Misra-Gries uses one pass with worst case running time $O(k)$ for each element of the stream $[n]$. Insertion and increments of a topic takes $O(1)$ time if the length of the dictionary is less than $k$. However the worst case scenario would decrement all values of the dictionary every time the dictionary is full, a maximum of $\frac{k}{n}$ times, so we can argue that the amortized running time for each process is $O(1)$.
