@@ -11,7 +11,7 @@ Each user on twitter chooses other users to follow and see an aggregated list of
 \end{quote}
 
 \subsection{Hashtags and topics}
-For the purpose of categorizing tweets, users put hashtags within their tweets. Examples include, as seen above, \#ITU, \#trending and \#Misra. For the purpose of this paper, we will consider these hashtags as topics, and will only consider tweets that contain at least one hashtag. If a tweet contains several hashtags, we will consider each one seperately, but will use the entire tweet when considering distinct tweets.
+For the purpose of categorizing tweets, users put hashtags within their tweets. Examples include, as seen above, \#ITU, \#trending and \#Misra. For the purpose of this paper, we will consider these hashtags as topics, and will only consider tweets that contain at least one hashtag. If a tweet contains several hashtags, it will add to our counter for each of them seperately. It will also be used individually for each one when considering uniqueness (so it might be unique to one hashtag but not to another).
 
 Users of twitter can see the tweets of people they follow, and have the options to either reply to a tweet, or retweet it. On retweet the user basically shares the same message to their own followers, giving credit to the creator of the message.
 The topic of a tweet is identified by the presence of a hashtag \# in front of a word. In the example above the topics are \#ITU,\#trending and \#Misra.
