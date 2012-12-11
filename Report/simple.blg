@@ -1,0 +1,78 @@
+This is BibTeX, Version 0.99d (TeX Live 2011)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: simple.aux
+The style file: abbrv.bst
+Database file #1: simple.bib
+Warning--string name "international" is undefined
+--line 28 of file simple.bib
+I was expecting a `,' or a `}'---line 28 of file simple.bib
+ :    journal = international 
+ :                            Journal of Intelligence Science,
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 37 of file simple.bib
+ : 
+ : @ARTICLE{twitterdev,
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+I was expecting a `,' or a `}'---line 47 of file simple.bib
+ :    
+ :    AUTHOR = {MATT CURCIO}
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+Warning--to sort, need author or key in kmv
+Name 1 in "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" has a comma at the end for entry Bar-Yossef
+while executing---line 1049 of file abbrv.bst
+Too many commas in name 1 of "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" for entry Bar-Yossef
+while executing---line 1049 of file abbrv.bst
+Warning--empty author in kmv
+Warning--empty journal in kmv
+Warning--empty year in kmv
+Warning--empty journal in Amit
+Warning--empty journal in genderprediction
+Name 1 in "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" has a comma at the end for entry Bar-Yossef
+while executing---line 1090 of file abbrv.bst
+Too many commas in name 1 of "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" for entry Bar-Yossef
+while executing---line 1090 of file abbrv.bst
+Warning--empty journal in Bar-Yossef
+You've used 4 entries,
+            2118 wiz_defined-function locations,
+            512 strings with 4080 characters,
+and the built_in function-call counts, 860 in all, are:
+= -- 76
+> -- 34
+< -- 0
++ -- 14
+- -- 10
+* -- 48
+:= -- 154
+add.period$ -- 10
+call.type$ -- 4
+change.case$ -- 17
+chr.to.int$ -- 0
+cite$ -- 11
+duplicate$ -- 40
+empty$ -- 70
+format.name$ -- 10
+if$ -- 168
+int.to.chr$ -- 0
+int.to.str$ -- 4
+missing$ -- 4
+newline$ -- 21
+num.names$ -- 6
+pop$ -- 28
+preamble$ -- 1
+purify$ -- 13
+quote$ -- 0
+skip$ -- 29
+stack$ -- 0
+substring$ -- 20
+swap$ -- 0
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 16
+warning$ -- 7
+while$ -- 6
+width$ -- 5
+write$ -- 34
+(There were 7 error messages)

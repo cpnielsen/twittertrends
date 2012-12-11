@@ -1,0 +1,22 @@
+\begin{thebibliography}{1}
+
+\bibitem{kmv}
+Sketch of the day: K-minimum values.
+
+\bibitem{Amit}
+A.~Chakrabarti.
+\newblock Cs85: Data stream algorithms.
+\newblock 2009.
+
+\bibitem{genderprediction}
+B.~D. Zachary~Miller and W.~Hu.
+\newblock Gender prediction on twitter using stream algorithms with n-gram
+  character features.
+\newblock 2012.
+
+\bibitem{Bar-Yossef}
+R.~K. D.~S. Ziv Bar-Yossef, T. S.~Jayram and L.~Trevisan.
+\newblock Counting distinct elements in a data stream.
+\newblock 2002.
+
+\end{thebibliography}
