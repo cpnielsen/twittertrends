@@ -1,0 +1,6 @@
+\subsection{Finding frequent items}\label{algo-frequent}
+We want to find the the frequency of certain terms in each $tweet$ in our input stream $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle$, and define a frequency vector $f = (f_{1},...,f_{n})$, where $f_{1} + ... + f_{n} = m$. 
+
+The Misra-Gries Algorithm solves the problem of estimating the frequencies $f_{j}$ \cite{Amit}
+
+A similar scoring method is suggested where a topic is given a score based on the frequency over a period of time. That means that if a topic generally has a high frequency over a long period of time, it will not necessarily be considered trending if a topic with a lower frequency gained it over a shorter period of time. The standard score is defined as $z = \frac{x - \mu}{\sigma}$, where $x$ is the raw score, $\mu$ is the mean of the population and $\sigma$ is the standard of the population.

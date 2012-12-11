@@ -1,25 +1,23 @@
 \section{Streaming algorithms}\label{related work}
-\subsection{Introduction}
+\subsection{Introduction}\label{algo-intro}
 \begin{quote}\textit{
 Twitter and other social networks are structured to accomodate personal communication across large networks of friends, and a such produce enormous amounts of data. The open availability of this data through developer APIs makes it's an interesting source for useful real-time information extraction using streaming algorithms \cite{genderprediction}. 
 }
 \end{quote}
 
 This section introduces the concepts of algorithms that can compute some function of a massively long input stream $\sigma$ such as all public available tweets. In our model this is formalized as a sequence $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle $, where the elements of the sequence (called $tweets$) are drawn from the universe $[n] =: \{1, 2,..., n\}$. Note the two size parameters: the stream length, $m$, and the universe size, $n$.
+\subsection{Goal}\label{algo-goals}
 Our goal will be to process the input stream using a small amount of space $s$, i.e., to use s bits of random-access working memory. Since $m$ and $n$ are to be thought of ``huge'' we want to make $s$ much smaller than these. Ideally we want to achieve $s$ = O(log $m$ + log $n$), because this is the amount of space needed to store a constant number of elements from the stream and a constant number of counters that can count up to the length of the stream. \cite{Amit}
 
-\subsection{Finding frequent items}
-We want to find the the frequency of certain terms in each $tweet$ in our input stream $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle$, and define a frequency vector $f = (f_{1},...,f_{n})$, where $f_{1} + ... + f_{n} = m$. 
+Specifically we want to analyze the Twitter input stream to find tags that that have a high occurence over some period of time, and be able to return these e.g. as a top-10 list for both 1 hour and 24 hour periods. Besides returning the most popular topics, we wish to be able to say something about if the topic has a high frequency because many different people have mentioned it, or it has been retweeted a lot of times.
 
-The Misra-Gries Algorithm solves the problem of estimating the frequencies $f_{j}$ \cite{Amit}
+\input{frequentitems.tex}
 
-A similar scoring method is suggested where a topic is given a score based on the frequency over a period of time. That means that if a topic generally has a high frequency over a long period of time, it will not necessarily be considered trending if a topic with a lower frequency gained it over a shorter period of time. The standard score is defined as $z = \frac{x - \mu}{\sigma}$, where $x$ is the raw score, $\mu$ is the mean of the population and $\sigma$ is the standard of the population.
-
-\subsection{Finding distinct values}
+\subsection{Finding distinct values}\label{algo-distinct}
 K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, a get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
    
 Other examples of the usages of data stream algorithms are described in this chapter.
-\subsection{Misra-Gries Algorithm}
+\subsection{Misra-Gries Algorithm}\label{misra-gries}
 The algorithm first initializes a dictionary with $k$ number of values. The keys in the dictionary are elements seen in the stream, and the value are counters associated with the elements. Then there is a process function that is executed each time we see a new element. If a new element is already in the dictionary, it's value will be increased by 1, otherwise if the number of elements in $A$ is less than $k$, the element will be inserted an its value set to 1. If the length of $A$ is equal to $k$, all values are decreased by 1, and removed if the value is equal to 0. \cite{Amit}.Finally we return the key value pairs with the highest frequencies.
 \begin{algorithm}
 \caption{Misra-Gries Algorithm}
@@ -44,6 +42,8 @@ We use Misra-Gries to find frequent $topics$ in our data stream of tweets using 
 \end{algorithm}
 
 \subsection{Analysis of algorithm}
+
+
 
 \subsection{Rising trends}
 Varying $k$ to change the amount of time the trending topics cover.
