@@ -1,22 +1,23 @@
 Outline:
 
-- Introduction
-- Twitter og Topics
-- Streaming algorithms
-  - Introduction
-  - Goals
-  - Finding frequent items
+- Introduction (ref: intro)
+- Twitter og Topics (ref: twitter)
+- Streaming algorithms (ref: algorithms)
+  - Introduction (ref: algo-intro)
+  - Goals (ref: algo-goals)
+  - Finding frequent items (ref: algo-frequent)
     (- Space and run-time analysis)
-  - Finding distinct items
+  - Finding distinct items (ref: algo-distinct)
     (- Space and run-time analysis)
-  - Adjusting algorithms for our input
-    - Determine k for Misra-Gries
-    - Determine good hash function for tweets
-- Results
-  - Findings
-  - Twitter comparison
-- Discussion
-  - Deviation in results
-  - Trending vs Popular
-  - Effects of counting distinct tweets
-- Conclusion
+  - Adjusting algorithms for our input (ref: algo-adjust)
+    - Compiling data for analysis (ref: algo-data)
+    - Determine k for Misra-Gries (ref: algo-misra)
+    - Determine good hash function for tweets (ref: algo-hash)
+- Results (ref: results)
+  - Findings (ref: results-find)
+  - Twitter comparison (ref: results-twitter)
+- Discussion (ref: discussion)
+  - Deviation in results (ref: discussion-dev)
+  - Trending vs Popular (ref: discussion-trend)
+  - Effects of counting distinct tweets (ref: discussion-effects)
+- Conclusion (ref: conclusion)
