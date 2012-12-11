@@ -4,17 +4,12 @@ The top-level auxiliary file: simple.aux
 The style file: abbrv.bst
 Database file #1: simple.bib
 Warning--string name "international" is undefined
---line 28 of file simple.bib
-I was expecting a `,' or a `}'---line 28 of file simple.bib
+--line 35 of file simple.bib
+I was expecting a `,' or a `}'---line 35 of file simple.bib
  :    journal = international 
  :                            Journal of Intelligence Science,
 I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 37 of file simple.bib
- : 
- : @ARTICLE{twitterdev,
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 47 of file simple.bib
+I was expecting a `,' or a `}'---line 55 of file simple.bib
  :    
  :    AUTHOR = {MATT CURCIO}
 (Error may have been on previous line)
@@ -28,51 +23,52 @@ Warning--empty author in kmv
 Warning--empty journal in kmv
 Warning--empty year in kmv
 Warning--empty journal in Amit
+Warning--empty journal in Cnet1
 Warning--empty journal in genderprediction
 Name 1 in "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" has a comma at the end for entry Bar-Yossef
 while executing---line 1090 of file abbrv.bst
 Too many commas in name 1 of "Ziv Bar-Yossef, T. S. Jayram, Ravi Kumar, D. Sivakumar, and Luca Trevisan" for entry Bar-Yossef
 while executing---line 1090 of file abbrv.bst
 Warning--empty journal in Bar-Yossef
-You've used 4 entries,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            512 strings with 4080 characters,
-and the built_in function-call counts, 860 in all, are:
-= -- 76
-> -- 34
+            516 strings with 4153 characters,
+and the built_in function-call counts, 1063 in all, are:
+= -- 95
+> -- 41
 < -- 0
-+ -- 14
-- -- 10
-* -- 48
-:= -- 154
-add.period$ -- 10
-call.type$ -- 4
-change.case$ -- 17
++ -- 17
+- -- 12
+* -- 56
+:= -- 192
+add.period$ -- 13
+call.type$ -- 5
+change.case$ -- 21
 chr.to.int$ -- 0
-cite$ -- 11
-duplicate$ -- 40
-empty$ -- 70
-format.name$ -- 10
-if$ -- 168
+cite$ -- 13
+duplicate$ -- 50
+empty$ -- 87
+format.name$ -- 12
+if$ -- 208
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 4
-newline$ -- 21
-num.names$ -- 6
-pop$ -- 28
+int.to.str$ -- 5
+missing$ -- 5
+newline$ -- 26
+num.names$ -- 8
+pop$ -- 34
 preamble$ -- 1
-purify$ -- 13
+purify$ -- 16
 quote$ -- 0
-skip$ -- 29
+skip$ -- 36
 stack$ -- 0
-substring$ -- 20
+substring$ -- 25
 swap$ -- 0
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 16
-warning$ -- 7
-while$ -- 6
-width$ -- 5
-write$ -- 34
-(There were 7 error messages)
+type$ -- 20
+warning$ -- 8
+while$ -- 8
+width$ -- 6
+write$ -- 43
+(There were 6 error messages)
