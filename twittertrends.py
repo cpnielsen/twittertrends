@@ -30,7 +30,7 @@ class TweetLengthCounter:
         self.client = twittertrends
         self.runningtime = minutes
         self.targettime = time.time() + (minutes * 60)
-        self.buckets = { k: 0 for k in xrange(220) }
+        self.buckets = { k: 0 for k in xrange(500) }
         self.counter = 0
 
     def on_tweet(self, tweet):
