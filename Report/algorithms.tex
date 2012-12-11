@@ -1,5 +1,10 @@
 \section{Streaming algorithms}\label{related work}
-Twitter and other social networks are structured to accomodate personal communication across large networks of friends, and a such produce enormous amounts of data. The open availability of this data through developer APIs makes it's an interesting source for useful real-time information extraction using streaming algorithms. \cite{genderprediction} 
+\subsection{Introduction}
+\begin{quote}\textit{
+Twitter and other social networks are structured to accomodate personal communication across large networks of friends, and a such produce enormous amounts of data. The open availability of this data through developer APIs makes it's an interesting source for useful real-time information extraction using streaming algorithms \cite{genderprediction}. 
+}
+\end{quote}
+
 This section introduces the concepts of algorithms that can compute some function of a massively long input stream $\sigma$ such as all public available tweets. In our model this is formalized as a sequence $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle $, where the elements of the sequence (called $tweets$) are drawn from the universe $[n] =: \{1, 2,..., n\}$. Note the two size parameters: the stream length, $m$, and the universe size, $n$.
 Our goal will be to process the input stream using a small amount of space $s$, i.e., to use s bits of random-access working memory. Since $m$ and $n$ are to be thought of ``huge'' we want to make $s$ much smaller than these. Ideally we want to achieve $s$ = O(log $m$ + log $n$), because this is the amount of space needed to store a constant number of elements from the stream and a constant number of counters that can count up to the length of the stream. \cite{Amit}
 
