@@ -1,9 +1,11 @@
 from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
+from random import random
+from sets import Set
 import json
 import time
 import operator
-from random import random
+import smhasher 
 
 CONSUMER_KEY="2XhwGwTJefx4aD2xdo4UoQ"
 CONSUMER_SECRET="yX5WYFz9LugOWyMgtkv4iWOvhBjGGZStmA61icFyi4"
@@ -13,6 +15,8 @@ ACCESS_TOKEN_SECRET="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
 
 FILENAME_COUNT = "simplecount"
 LENGTH_COUNT = "tweetlength"
+
+INT_64_MAX = 2^64 - 1
 
 class Tweet:
     def __init__(self, message, topics, time, user):
@@ -87,35 +91,74 @@ class SimpleTopicCounter:
         print 'Topic counter: %d minutes collected' % self.runningtime
 
 class TrendingTopics:
-    def __init__(self, buckets):
+    def __init__(self, client, buckets, minutes):
         self.topics = {}
+        self.kmvsets = {}
+        self.totals = {}
+        self.client = client
         self.buckets = buckets
-        self.count = 0
+        self.minutes = minutes
+        self.targettime = time.time() + (minutes * 60)
 
     def on_tweet(self, tweet):
+        if time.time() > self.targettime:
+            self.writeresult()
+            self.client.stop()
         for tag in tweet.topics:
             if tag in self.topics:
                 self.topics[tag] += 1
+                self.kmvadd(tag, tweet.message)
             else:
                 if len(self.topics) <= self.buckets:
                     self.topics[tag] = 1
+                    self.kmvadd(tag, tweet.message)
                 else:
                     # Decrement all values by 1 and delete (ignore) those that would drop to 0
-                    self.topics = { k: (v-1) for k, v in self.topics.iteritems() if v >= 1 }
+                    #self.topics = { k: (v-1) for k, v in self.topics.iteritems() if v >= 1 }
+                    newtopics = {}
+                    for k, v in self.topics.iteritems():
+                        if v <= 1:
+                            self.kmvdelete(k)
+                        else:
+                            newtopics[k] = v - 1
+                    self.topics = newtopics
 
-            # Not an actual count, just used to periodically print stats
-            self.count = self.count + 1
-        
-        if self.count > 200:
-            self.count = 0
-            self.gettopics()
+    def hashval(self, message):
+        h = smhasher.murmur3_x64_64(message)
+        final = h / INT_64_MAX
+        return final
 
-    def gettopics(self, amount=10):
-        sorted_topics = sorted(self.topics.iteritems(), key=operator.itemgetter(1))
-        sorted_topics.reverse()
+    def kmvadd(self, tag, message):
+        if tag not in self.kmvsets:
+            self.kmvsets[tag] = Set()
+            self.totals[tag] = 0
+        self.kmvsets[tag].add(self.hashval(message.encode('utf-8')))
+        self.totals[tag] += 1
 
-        for x in xrange(amount):
-            print u'%d: %s' % (sorted_topics[x][1], sorted_topics[x][0])
+    def kmvdelete(self, tag):
+        if tag in self.kmvsets:
+            del self.kmvsets[tag]
+            del self.totals[tag]
+
+    def kmvdistinct(self, tag, k=[10, 20, 30, 40, 50]):
+        sorted_set = sorted(self.kmvsets[tag])
+        result = []
+        for no in k:
+            if len(sorted_set) >= no:
+                distinct = 1 / (sum(sorted_set[:no]) / k)
+                result.append(distinct)
+
+        print "%s (%d)" % (','.join(result), len(sorted_set))
+
+
+    def writeresult(self, amount=10):
+        with open("trending" + str(self.runningtime) + ".txt", 'w') as f:
+            sorted_topics = sorted(self.topics.iteritems(), key=operator.itemgetter(1))
+            sorted_topics.reverse()
+
+            for x in xrange(amount):
+                tag = sorted_topics[x][0]
+                f.write(u'%d: %s (distinct: %s, total: %d)' % (sorted_topics[x][1], tag, self.kmvdistinct(tag), self.totals[tag]))
 
 
 class TwitterTrends(StreamListener):
@@ -167,10 +210,11 @@ class TwitterTrends(StreamListener):
 
 if __name__ == '__main__':
     trends = TwitterTrends()
-    #trendtopics = TrendingTopics(100)
-    #trends.add_subscriber(trendtopics)
-    counter = TweetLengthCounter(60, trends)
-    trends.add_subscriber(counter)
+    trendtopics = TrendingTopics(trends, 150, 5)
+    trends.add_subscriber(trendtopics)
+    #counter = TweetLengthCounter(60, trends)
+    #trends.add_subscriber(counter)
+    #hashf = smhasher.murmur3_x64_64
     trends.start()
 
     while True:
