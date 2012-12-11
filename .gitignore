@@ -39,6 +39,8 @@ nosetests.xml
 
 # Latex
 *.aux
-Report/*.log
+*.log
+*.blg
+*.bbl
 *.gz
 *.fdb_latexmk
