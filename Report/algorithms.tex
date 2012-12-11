@@ -46,7 +46,6 @@ We use Misra-Gries to find frequent $topics$ in our data stream of tweets using 
 \end{algorithm}
 \subsubsection{Data structure}
 When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation.
-
 \subsubsection{Data set}\label{algo-data}
 
 \subsubsection{Analysis of algorithm}\label{algo-analysis}
