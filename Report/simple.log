@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2012.5.17)  11 DEC 2012 16:48
+=======
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=pdflatex 2011.7.3)  11 DEC 2012 16:42
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -182,27 +186,49 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 16.
 
+<<<<<<< HEAD
 Underfull \hbox (badness 10000) in paragraph at lines 23--28
+=======
+Underfull \hbox (badness 10000) in paragraph at lines 25--30
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
 
  []
 
 
+<<<<<<< HEAD
 Underfull \hbox (badness 10000) in paragraph at lines 23--28
+=======
+Underfull \hbox (badness 10000) in paragraph at lines 25--30
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
 
  []
 
 [1
 
 {/usr/local/texlive/2011/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+<<<<<<< HEAD
 Underfull \hbox (badness 10000) in paragraph at lines 39--41
+=======
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
 
- []
+! LaTeX Error: There's no line here to end.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.41 \newline
+             
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 <tweet.png, id=11, 520.94624pt x 96.36pt>
 File: tweet.png Graphic file (type png)
  <use tweet.png>
 Package pdftex.def Info: tweet.png used on input line 42.
 (pdftex.def)             Requested size: 355.65944pt x 65.7871pt.
+<<<<<<< HEAD
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 52.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -235,6 +261,52 @@ Output written on simple.pdf (5 pages, 147471 bytes).
 PDF statistics:
  65 PDF objects out of 1000 (max. 8388607)
  45 compressed objects within 1 object stream
+=======
+
+Underfull \hbox (badness 10000) in paragraph at lines 42--44
+
+ []
+
+! You can't use `macro parameter character #' in horizontal mode.
+l.45 ...\quote{@pocky1000 You are totally right. #
+                                                  ITU is super cool.}
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+[2 <./tweet.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 54.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 54.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 54.
+ [3] [4] (./simple.bbl [5]) [6] (./simple.aux) ) 
+Here is how much of TeX's memory you used:
+ 2105 strings out of 493633
+ 30203 string characters out of 3143378
+ 87736 words of memory out of 3000000
+ 5393 multiletter control sequences out of 15000+200000
+ 9717 words of font info for 34 fonts, out of 3000000 for 9000
+ 831 hyphenation exceptions out of 8191
+ 37i,6n,23p,932b,286s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2011/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2011/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2011/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2011/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive/2011/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2011/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2011/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2011/texmf-dist/font
+s/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2011/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2011/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb>
+Output written on simple.pdf (6 pages, 140161 bytes).
+PDF statistics:
+ 64 PDF objects out of 1000 (max. 8388607)
+ 44 compressed objects within 1 object stream
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

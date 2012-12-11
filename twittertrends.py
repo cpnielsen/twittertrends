@@ -12,6 +12,7 @@ from random import random
 #ACCESS_TOKEN_SECRET="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
 
 FILENAME_COUNT = "simplecount"
+LENGTH_COUNT = "tweetlength"
 
 class Tweet:
     def __init__(self, message, topics, time, user):
@@ -23,6 +24,30 @@ class Tweet:
 class SimpleTweetWriter:
     def on_tweet(self, tweet):
         print u'%s: %s - %s' % (tweet.user, tweet.message, ', '.join(tweet.topics))
+
+class TweetLengthCounter:
+    def __init__(self, minutes, twittertrends):
+        self.client = twittertrends
+        self.runningtime = minutes
+        self.targettime = time.time() + (minutes * 60)
+        self.buckets = { k: 0 for k in xrange(220) }
+        self.counter = 0
+
+    def on_tweet(self, tweet):
+        if time.time() > self.targettime:
+            self.writefile()
+        bucket = len(tweet.message)
+        self.buckets[bucket] += 1
+        self.counter += 1
+
+    def writefile(self):
+        self.f = open(LENGTH_COUNT + str(self.runningtime) + ".txt", 'w')
+        self.f.write('--- Total number of tweets in %d minutes: %d --- \n' % (self.runningtime, self.counter))
+        for k, v in self.buckets.iteritems():
+            self.f.write('%d: %d times' % (k, v))
+        self.f.close()
+        self.client.remove_subscriber(self)
+        print 'Length counter: %d minutes collected' % self.runningtime
 
 class SimpleTopicCounter:
     def __init__(self, minutes, twittertrends):
@@ -70,28 +95,18 @@ class TrendingTopics:
     def on_tweet(self, tweet):
         for tag in tweet.topics:
             if tag in self.topics:
-                self.topics[tag] = self.topics[tag] + 1
+                self.topics[tag] += 1
             else:
                 if len(self.topics) <= self.buckets:
                     self.topics[tag] = 1
                 else:
-                    found = None
-                    for topic, value in self.topics.iteritems():
-                        if value == 0:
-                            found = topic
-                            break
-                    if found != None:
-                        del self.topics[found]
-                        self.topics[tag] = 1
-                    else:
-                        for topic, value in self.topics.iteritems():
-                            self.topics[topic] = value - 1
+                    # Decrement all values by 1 and delete (ignore) those that would drop to 0
+                    self.topics = { k: (v-1) for k, v in self.topics.iteritems() if v >= 1 }
 
+            # Not an actual count, just used to periodically print stats
             self.count = self.count + 1
-            #if tag in self.topics:
-            #    print u"Tag '%s' has %d value" % (tag, self.topics[tag])
         
-        if self.count > 1000:
+        if self.count > 200:
             self.count = 0
             self.gettopics()
 
@@ -143,7 +158,7 @@ class TwitterTrends(StreamListener):
         self.subscribers.remove(subscriber)
 
     def start(self, topics=['*']):
-        self.stream.sample(async=True)
+        self.stream.sample()
 
     def stop(self):
         self.stream.disconnect()
@@ -151,16 +166,15 @@ class TwitterTrends(StreamListener):
 
 
 if __name__ == '__main__':
-    # l = StdOutListener()
-    # auth = OAuthHandler(consumer_key, consumer_secret)
-    # auth.set_access_token(access_token, access_token_secret)
-    # stream = Stream(auth, l)
-    # stream.filter(track=['*'])
     trends = TwitterTrends()
-    trendtopics = TrendingTopics(250)
-    topiccounter1 = SimpleTopicCounter(60, trends)
-    topiccounter24 = SimpleTopicCounter(1440, trends)
-    trends.add_subscriber(topiccounter1)
-    trends.add_subscriber(topiccounter24)
-    #trends.add_subscriber(SimpleTweetWriter())
+    #trendtopics = TrendingTopics(100)
+    #trends.add_subscriber(trendtopics)
+    counter = TweetLengthCounter(60, trends)
+    trends.add_subscriber(counter)
     trends.start()
+
+    while True:
+        try:
+            time.sleep(10)
+        except KeyboardInterrupt:
+            trends.stop()

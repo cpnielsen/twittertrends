@@ -20,6 +20,8 @@ We have designed an algorithm for identifying trending topics in twitter..
 \end{abstract}
 
 \section{Introduction}
+We wish to make use of the Twitter streaming API to analyze messages and find trending topics, as well as
+
 We wish to make use of the Twitter streaming API to implement our own version of trending topics using the Misra-Gries algorithm, and for the trending topics we would track how many unique tweets have been made per topic, using one of the algorithms for counting distinct elements. We could also count number of tweets for trending topics to compare actual tweets with unique tweets, but this is not algorithmically a challenge.
 \newline\newline
 Challenges would include finding a suitable k for the Misra-Gries that is a good trade-off between memory space and making sure we take into account the tweets inbetween the actual trending topics that might "flood" them out of the array.
@@ -33,19 +35,27 @@ Our new and exciting results are described in Section~\ref{results}.
 Finally, Section~\ref{conclusions} gives the conclusions.
 
 
-\section{Twitter topics}
-Twitter is a real-time information network that connects you to the latest stories, ideas, opinions and news about what you find interesting.
+\section{Twitter}
+Twitter is a real-time information network that connects you to the latest stories, ideas, opinions and news about what you find interesting. All information on Twitter is distributed through ``tweets'', small 140-character messages where a person can shortly state an opinion, an event or random thoughts. Because of the format, twitter encourages frequent updates from users and as of October 26th, 2012 around 500 million tweets are written per day (24 hours)\cite{Cnet1}. With 140 million users, this means each user, on average, posts 3.5 tweets per day. A typical tweet can be seen below.
 
-At the heart of Twitter are small bursts of information called Tweets. Each Tweet is 140 characters long. An example of a tweet can be seen below.
+\newline
+\includegraphics[width=125mm]{tweet.png}
 \newline
 
-\includegraphics[width=125mm]{tweet.png}
+Each user on twitter chooses other users to follow and see an aggregated list of all their tweets. Tweets can be replied to by in this form: \quote{@pocky1000 You are totally right. #ITU is super cool.}
 
+\subsection{Hashtags and topics}
+For the purpose of categorizing tweets, users put hashtags within their tweets. Examples include, as seen above, \#ITU, \#trending and \#Misra. For the purpose of this paper, we will consider these hashtags as topics, and will only consider tweets that contain at least one hashtag. If a tweet contains several hashtags, we will consider each one seperately, but will use the entire tweet when considering distinct tweets.
+
+<<<<<<< HEAD
 Users of twitter can see the tweets of people they follow, and have the options to either reply to a tweet, or retweet it. On retweet the user basically shares the same message to their own followers, giving credit to the creator of the message.
 The topic of a tweet is identified by the presence of a hashtag \# in front of a word. In the example above the topics are \#ITU,\#trending and \#Misra.
 Tweets can be tagged by writing a hashtag ``\#'' followed by a topic or keyword. Twitter users this as a way to categorize messages.
 A trending topic is defined by a topic that has a high frequency, in other words many people are ``tweeting'' about the same topic at some point in time. A trending topic can either be many unique tweets about the same topic, e.g. if people are tweeting to promote some beneficial cause, or it can be the same message retweeted by many users.
 Twitter currently have over 500 million users, so the amount of tweets produced at any moment is equally big, some specifics. We use the public Twitter API to create a stream of which corresponds to a sample of all tweets. 
+=======
+A trending topic is defined by a topic that has a high frequency, in other words many people are ``tweeting'' about the same topic over a period of time. This topic can be used by many individuals to give their input, and as such will have many unique tweets, or it can be a specific message that has been re-tweeted a lot of times.
+>>>>>>> 546d0f257e0a50c4c637c7af191ab84f874188e8
 
 \section{Streaming algorithms}\label{related work}
 Twitter and other social networks are structured to accomodate personal communication across large networks of friends, and a such produce enormous amounts of data. The open availability of this data through developer APIs makes it's an interesting source for useful real-time information extraction using streaming algorithms. \cite{genderprediction} 
