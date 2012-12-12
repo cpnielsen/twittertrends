@@ -14,14 +14,15 @@ $\begin{array}{ll}
     20: & \#androidgames (distinct: 137.0) \\
 \end{array}$
 \\\\
-This result shows why it might be relevant to consider distinct tweets when finding trending topics. Despite being mentioned more frequently, \#bfbjp and \#camillafollowspree both have fewer distinct tweets than the topic below them.
+This result shows why it might be relevant to consider distinct tweets when finding trending topics. Despite being mentioned more frequently, \#bfbjp and \#camillafollowspree both have fewer distinct tweets than the respective topics below them.
 
 \subsection{Comparison with Twitters trending topics}\label{twitter-result}
 The results may differ from Twitters official trending topics for various reasons, which include but are not limited to the following: 
-\\
+
 \begin{enumerate}
 	\item Twitters trend emphasizes novelty over popularity. This means that topics that have a high increase in frenquency over a short period of time are rated higher than topics that are always popular like \#android and \#gameinsight. 
 	\item We only have access to a sample of all public tweets which is not guaranteed to be statistical accurate representation.
+    \item For simplicity of implementation we only consider tweets that contains one or more tags. This does not seem to be the case for twitters own trending topics.
 \end{enumerate}
 
 By a quick comparison with the top-10 trending topics on Twitter with our results, it shows that there indeed exists some overlap of topics, but it is hard to define how much precisely.
