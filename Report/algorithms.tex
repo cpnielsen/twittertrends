@@ -8,7 +8,7 @@ Twitter and other social networks are structured to accomodate personal communic
 This section briefly describes our goals for the project and how we, both theoretically and practically, make use of streaming algorithms to achieve these goals. We go through the process of finding suitable variables for our algorithms and using appropriate data structures.
 
 \subsection{Goal}\label{algo-goals}
-Our goal is to find the trending topics on twitter over a given time period. The idea is that our algorithm will be optimized for different intervals, 1-hour and 24-hour periods, and that at any given time it can be queried to get the actual topics trending. Additionally, we wish to find, for these topics, how many distinct tweets are posted to see if popular topics are the result of aggressive re-tweeting or actual interest in the topic as a whole.
+Our goal is to find the trending topics on twitter over a given time period. The idea is that our algorithm will be optimized for different intervals, 1-hour and 24-hour periods, and that at any given time it can be queried to get the actual topics trending. Additionally, we wish to find, for these topics, how many distinct tweets are posted to see if popular topics are the result of aggressive retweeting or actual interest in the topic as a whole.
 
 To achieve this, we need to make use of streaming, lossy algorithms, for two major reasons:
 \begin{enumerate}
@@ -22,7 +22,7 @@ To achieve this, we need to make use of streaming, lossy algorithms, for two maj
 \input{frequentitems.tex}
 
 \subsection{Finding distinct values}\label{algo-distinct}
-K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, a get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
+K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, and get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
 
 We found it hard to find a suitable value for \textit{k}, and as can be seen from our implementation we tried improvising a list of different possible \textit{k-values}. Below is a sample we tried with \textit{k-values} $= \langle 25, 50, 75, 100 \rangle$. The sample uses this format:
 \begin{quote}
@@ -41,7 +41,7 @@ $\begin{array}{lll}
         73: & \#teamfollowback & (distinct: 297.0,264.0,244.0,240.0 (242), total: 330) \\
         62: & \#confissoesdamadrugada & (distinct: 313.0,258.0,271.0,277.0 (277), total: 302) \\
 \end{array}$}
-
+\\\\
 This gives us the the following average deviations from the true count for different $k-values$:
 \begin{itemize}
     \item k=25 - average deviation: 0.147
@@ -55,10 +55,10 @@ As we can see from our sample, we are guaranteed to have at least 100 distinct t
 \subsubsection{Choice of hash function}\label{hash-function}
 As mentioned in section \ref{algo-distinct} it's important to choose a hash function with an evenly dsitributed output to get a good estimate of distinct items with KMV. We are looking for a function that performs well for hashing text of lengths of approx. 3 to 140 characters. 
 
-Cpesyna \cite{KMV1} performed an experiment with 4 different hash functions on different kinds of natural language inputs and varying sizes of $k$, among the input types were 99.171 english words, which we assume that most of our data is aswell. It was shown that Murmur3 proved most accurate function staying within the relative error margin for all english words.
+Cpesyna \cite{KMV1} performed an experiment with 4 different hash functions on different kinds of natural language inputs and varying sizes of $k$, among the input types were 99.171 english words, which for the purpose of this project we hold to be true. It was shown that Murmur3 proved to be the most accurate function staying within the relative error margin for all english words.
 
 \subsection{Implementation}\label{algo-data}
-The pseudo-code in the next section (see \ref{misra-pseudo}) describes our implementation of the \textit{Misra-Gries} algorithm combined with \textit{KMV}.  
+The pseudo-code in the next section (see Algorithm \ref{misra-pseudo}) describes our implementation of the \textit{Misra-Gries} algorithm combined with \textit{KMV}.  
 
 \subsubsection{Misra-Gries and KMV design}\label{misra-gries}
 The algorithm first initializes a dictionary of size \textit{k}. The keys in the dictionary correspond to topics \textit{j} encountered in the stream, and the values correspond to the frequency \text{f} of the topic. 
