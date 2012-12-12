@@ -5,7 +5,7 @@ Twitter and other social networks are structured to accomodate personal communic
 }
 \end{quote}
 
-This section describes briefly our goals for the project and how we, both theoretically and practically, make use of streaming algorithms to achieve these goals. We go through the process of finding suitable variables for our algorithms and using appropriate data structures.
+This section briefly describes our goals for the project and how we, both theoretically and practically, make use of streaming algorithms to achieve these goals. We go through the process of finding suitable variables for our algorithms and using appropriate data structures.
 
 \subsection{Goal}\label{algo-goals}
 Our goal is to find the trending topics on twitter over a given time period. The idea is that our algorithm will be optimized for different intervals, 1-hour and 24-hour periods, and that at any given time it can be queried to get the actual topics trending. Additionally, we wish to find, for these topics, how many distinct tweets are posted to see if popular topics are the result of aggressive re-tweeting or actual interest in the topic as a whole.
@@ -72,9 +72,17 @@ To count the number of distinct values, we initialize a set $KMV_{j}$ for each t
 \end{algorithm}
 
 \subsubsection{Data structure}
-When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation in our case.
+When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency, implemented internally in python as a hashtable. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time, with $k$ being the maximum number of buckets in the dictionary. However, as we would need to touch all objects regardless of data structure, the efficiency of this operation is as good as can be for any data structure we have considered.
 
-\subsubsection{Analysis of algorithm}\label{algo-analysis}
-Misra-Gries uses one pass with worst case running time $O(k)$ for each element of the stream $[n]$. Insertion and increments of a topic takes $O(1)$ time if the length of the dictionary is less than $k$. However the worst case scenario would decrement all values of the dictionary every time the dictionary is full, a maximum of $\frac{k}{n}$ times, so we can argue that the amortized running time for each process is $O(1)$.
+For each trending topic we create a set, which is also implemented internally in python as a hashtable. Each time a trending topic appears, we add the hash value of the tweet text to the set for calculating the K-min value. Like the dictionary, this provides us with a $O(1)$ insertion time. If a topic leaves the trending topics list, we also remove the accompanying set. This means that a topic that has been out of the trending topics list, will not have a history of distinct tweets if it returns to the list once again. However, our criteria for inclusion in the trending topics and the behavior of trending topics (most are distributed during the entire period) means this will rarely be the case, but we acknowledge that this will further deviate the distinct count from the true value.
 
+For data retrieval, we have to do a sorting of both the trending topics dictionary, as we are only interested in the top 10 trending topics, as well as sorting the KMV set for each trending topic. We are aware that these data structures are optimized for random access and sorting them is a O(n log n) operation, but as result retrieval should be a rare occurance in comparison to the general running of the algorithms, we have optmized for the latter.
+
+\subsubsection{Analysis of algorithm}
+\label{algo-analysis}
+Misra-Gries uses one pass with worst case running time $O(k)$ for each element of the stream $[n]$. Insertion and increments of a topic takes $O(1)$ time if the length of the dictionary is less than $k$. However the worst case scenario\footnote{Worst case: Every topic in the stream is unique, causing constant refreshing of the key-value dictionary} would decrement all values of the dictionary every time the dictionary is full, a maximum of $\frac{k}{n}$ times, so we argue that the amortized running time for each process is $O(1)$.
+
+For our K-min value calculations, we do constant operations in calculating the hash value and inserting it. At no point do we touch more than one value.
+
+Overall, this means that our algorithm for tracking both trending topics and associated distinct tweets runs in $O(n)$ time for the entire stream, exactly as expected for a streaming algorithm.
 
