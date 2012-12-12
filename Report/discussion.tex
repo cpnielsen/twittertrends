@@ -1,11 +1,8 @@
-\section{Discussion}\label{conclusions}
-
-\subsection{Trending vs popular}\label{trending-discussion}
+\section{Conclusion}
+\label{conclusions}
 
 From our results, we can see that between our 1-hour and 24-hour data mining period a lot of the same topics were in the top 10. One thing \textit{Misra-Gries} does not take into account is whether a topic is new or old within a given period - if a topic occurs more frequently than our threshold at the beginning of our time period, it will remain there for the remainder of the period. An alternative to \textit{Misra-Gries} would be the \textit{Lossy Counting} algorithm. It works in similar ways, but topics found earlier in the stream are more likely to get pruned than topics found later in the steam, which gives topics is mentioned over a very short period of time a higher value than topics that have been less, but more regularly, mentioned over a longer period.
 
-We can conclude that our chosen algorithm 
+From this we can conclude that our algorithm may work for a snapshot of what topics are frequent on twitter for a given period, but not may be frequent for just that period. Because the same topics keep staying frequent, we can also guess that our estimated \textit{k-values} may not be completely accurate for different intervals as topics common between our 1-hour interval and 24-hour interval are simple extrapolations with a somewhat similar ``average'' frequency per hour.
 
-\subsection{Effect of distinct tweets}\label{trending-distinct}
-
-We worked hard, and achieved very little.
+For our K-min value algorithm, we suffer from the same chosen \textit{k-values} in Misra-Gries. If the same topics stay trending for weeks on end, the distinct tweets count will keep rising and be less meaningful in the long run. This part of the algorithm works on the assumption that trending topics change and as such the distinct count is reset whenever a topic falls out of the trending topics dictionary in our Misra-Gries algorithm. Implementing a \textit{Lossy Count} algorithm in conjunction with the K-min value for trending topics will most likely yield better results, as it aggressively prunes older topics and as such distinct counts will be kept recent instead of for all time.

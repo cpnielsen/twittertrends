@@ -138,9 +138,8 @@ class TrendingTopics:
     def kmvdelete(self, tag):
         if tag in self.kmvsets:
             del self.kmvsets[tag]
-            del self.totals[tag]
 
-    def kmvdistinct(self, tag, k=[25, 50, 75, 100]):
+    def kmvdistinct(self, tag, k=[100]):
         sorted_set = sorted(self.kmvsets[tag])
         result = []
         for no in k:
@@ -214,7 +213,7 @@ class TwitterTrends(StreamListener):
 
 if __name__ == '__main__':
     trends = TwitterTrends()
-    trendtopics = TrendingTopics(trends, 150, 120)
+    trendtopics = TrendingTopics(trends, 150, 60)
     trends.add_subscriber(trendtopics)
     #counter = TweetLengthCounter(60, trends)
     #trends.add_subscriber(counter)

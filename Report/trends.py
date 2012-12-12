@@ -51,7 +51,7 @@ class TrendingTopics:
 			del self.kmvsets[tag]
 			del self.totals[tag]
 
-	def kmvdistinct(self, tag, k=[25, 50, 75, 100]):
+	def kmvdistinct(self, tag, k=[100]):
 		sorted_set = sorted(self.kmvsets[tag])
 		result = []
 		for no in k:
