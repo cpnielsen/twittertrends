@@ -28,20 +28,31 @@ We use Misra-Gries to find frequent $topics$ in our data stream of tweets using 
 \begin{algorithm}
 \caption{Misra-Gries Algorithm}\label{misra-pseudo}
 \begin{algorithmic}[1]
-\State $A\gets Initialize Array$
-
-\Function{Process}{$j$}
-\If {$j \in keys(A)$}
+\State $A\gets$ Initialize map
+\State $KMV\gets$ Initialize $KMV_{j}$ set for topic $j$
+\State $h\gets$ Hash function maps to $[0..1]$
+\Statex
+\Function{OnTweet}{$j$, $m$}
+\If {$j \in keys(A)$}\Comment{Topic already seen}
     \State $A[j] \leftarrow A[j] + 1$
+    \State $KMV_{j}$ add $h(m)$\Comment{Add hash value to set}
 \ElsIf {$|keys(A)| < k-1 $}
     \State $A[j] \leftarrow 1$
+    \State $KMV_{j}$ add $h(m)$
 \Else
     \For{$l \in keys(A)$}
         \State {$A[l] \leftarrow A[l] - 1$}
-        \If {$A[l] = 0$} remove $l$ from A
+        \If {$A[l] = 0$} 
+        \State remove $A[l]$
+        \State remove $KMV_{l}$
         \EndIf
     \EndFor
 \EndIf
+\EndFunction
+\Statex
+\Function{KMV-Distinct}{$k$, $j$}
+\State $S\gets$ sorted KMV set
+\State $distinct = k-1/S[k]$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
