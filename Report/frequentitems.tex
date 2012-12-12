@@ -1,15 +1,17 @@
 \subsection{Finding frequent items}\label{algo-frequent}
-Ideally, we want to find the frequency of topics in $tweets$ in our input stream $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle$, and define a frequency vector $f = (f_{1},...,f_{n})$, where $f_{1} + ... + f_{n} = m$. 
+Ideally, we want to find the frequency of topics in $tweets$ in our input stream $\sigma = \langle a_{1}, a_{2},...,a_{m}\rangle$. We define a frequency vector $f = (f_{1},...,f_{n})$, where $f_{1} + ... + f_{n} = m$. 
 
-To find the exact frequency of each topic would require that we store the exact number of times it has been seen, and with the vast number of topics seen (see section \ref{algo-data}) it would require a large amount of space to store. Instead, we can find the most frequent items seen over a period of time using the \textit{Misra-Gries} algorithm \cite{Amit}.
+
+To find the exact frequency of each topic would require that we store the exact number of times it has been seen, and with the vast number of topics seen (see section \ref{frequent-determine}) it would require a large amount of space to store. Instead, we can find the most frequent items seen over a period of time using the \textit{Misra-Gries} algorithm.\cite{Amit}
 \newline
 
-From the algorithm we have $f_j - \frac{m}{k} \leq \hat{f_j} \leq f_j$. From this we can derive that any item with a $\hat{f_j} > \frac{m}{k}$ will be in our map $A[j]$ with a positive score, and we simply need to make sure the topics we wish to capture for a given time period are above the $\frac{m}{k}$ threshold.
+From the algorithm description we have $f_j - \frac{m}{k} \leq \hat{f_j} \leq f_j$. From this we can derive that any item with a $\hat{f_j} > \frac{m}{k}$ will be in our map $A[j]$ with a positive score, and we simply need to make sure the topics we wish to capture for a given time period are above the $\frac{m}{k}$ threshold. We will discover $m$ and derive $k$ from it in the following section.
 
 \subsubsection{Determine k and m for Misra-Gries}
-In order for us to determine a suitable $k$ we would first have to find $m$ for a given timeframe. We wrote a piece of code that for 1 hour and 24 hours would count accurately \textit{a)} The total number of tweets, \textit{b)} The number of distinct topics and \textit{c)} The number of occurrances for each topic. We ran this a few times on different days to get an average on the number of tweet and occurances of the top 10 topics. An example of each sampling (1 hour and 24 hour respectively) can be seen below.\newline
+\label{frequent-determine}
+In order for us to determine a suitable $k$ we will first have to find $m$ for a given timeframe. We wrote a piece of code that for 1 hour and 24 hours would count accurately \textit{a)} The total number of tweets, \textit{b)} The number of distinct topics and \textit{c)} The number of occurrances for each topic. We ran this a few times on different days to get an average on the number of tweet and occurances of the top 10 topics. An example of each sampling (1 hour and 24 hour respectively) can be seen below.\newline
 
-Total number of tweets in 60 minutes: 26733\\
+Total number of tweets in 60 minutes: 26733, with 19117 unique topics\\
 
 $\begin{array}{ll}
     454: & \#PeoplesChoice \\
@@ -26,7 +28,7 @@ $\begin{array}{ll}
 \\
 \\
 
-Total number of tweets in 1440 minutes: 534408\\
+Total number of tweets in 1440 minutes: 534408, with 214345 unique topics\\
 
 $\begin{array}{ll}
     17064: & \#FF \\
