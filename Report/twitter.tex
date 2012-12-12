@@ -1,21 +1,23 @@
 \section{Twitter}
 \label{twitter}
 Twitter is a real-time information network that connects you to the latest stories, ideas, opinions and news about what you find interesting. All information on Twitter is distributed through ``tweets'', small 140-character messages where a person can shortly state an opinion, an event or random thoughts. Because of the format, twitter encourages frequent updates from users and as of October 26th, 2012 around 500 million tweets are written per day (24 hours)\cite{Cnet1}. With 140 million users, this means each user, on average, posts 3.5 tweets per day. A typical tweet can be seen below.
-\\
+\\\\
 \includegraphics[width=125mm]{tweet.png}
-\\
-Each user on twitter chooses other users to follow and see an aggregated list of all their tweets. Tweets can be replied to by in the form of ``@name message'', as examplified below. For our purpose, we do not connect replies with previous tweets, but Twitter does provide this in the tweet information.
+\\\\
+Each user on twitter chooses other users to follow and see an aggregated list of all their tweets. Tweets can be replied to by in the form of ``@name message'', as examplified below. For our purpose, we do not connect replies with previous tweets, but Twitter does provide this in the tweet data.
 
 \begin{quote}
     \emph{@pocky1000 You are totally right. \#ITU is super cool.}
 \end{quote}
 
+Users of twitter can also retweet a tweet in their stream. On retweet the user basically shares the same message to their own followers, giving credit to the creator of the message. However, the content of the tweet is identical to the original tweet. An example of a re-tweet follows.
+\\\\
+\includegraphics[width=125mm]{retweet.png}
+\\\\
 \subsection{Hashtags and topics}
 For the purpose of categorizing tweets, users put hashtags within their tweets. Examples include, as seen above, \#ITU, \#trending and \#Misra. For the purpose of this paper, we will consider these hashtags as topics, and will only consider tweets that contain at least one hashtag. If a tweet contains several hashtags, it will add to our counter for each of them seperately. It will also be used individually for each one when considering uniqueness (so it might be unique to one hashtag but not to another).
-
-Users of twitter can also retweet a tweet in their stream. On retweet the user basically shares the same message to their own followers, giving credit to the creator of the message.
 
 A trending topic is defined by a topic that has a high frequency, in other words many people are ``tweeting'' about the same topic at some point in time. A trending topic can either be many unique tweets about the same topic, e.g. if people are tweeting to promote some beneficial cause, or it can be the same message retweeted by many users. We use the public Twitter API to create a stream of which corresponds to a sample of all tweets. 
 
 \subsection{Retrieving the data}
-To retrieve the data, we make use of Twitter's streaming API\footnote{https://dev.twitter.com/docs/streaming-apis/streams/public}. They offer two endpoints for getting a live feed of data: ``firehose'' and ``sample''. Firehose feeds all tweets made to twitter, but is not available for general purpose usage. As such we will use the sample, which in our results gives around 500.000 tweets (with hashtags) per day, roughly 1/1000th of the total stream. See more in section \ref{algo-data}.
+To retrieve the data, we make use of Twitter's streaming API\footnote{https://dev.twitter.com/docs/streaming-apis/streams/public}. They offer two endpoints for getting a live feed of data: ``firehose'' and ``sample''. Firehose feeds all tweets made to twitter, but is not available for general purpose usage. As such we will use the sample, which in our results gives around 500.000 tweets (with hashtags) per day, roughly 1/1000th of the total stream. See more in section \ref{frequent-determine}.

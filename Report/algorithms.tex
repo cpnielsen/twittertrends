@@ -5,7 +5,7 @@ Twitter and other social networks are structured to accomodate personal communic
 }
 \end{quote}
 
-This section describes briefly our goals for the project and how we, both theoretically and practically, make use of streaming algorithms to achieve these goals. We go through the process of finding suitable variables for our algorithms and using appropriate data structures.
+This section briefly describes our goals for the project and how we, both theoretically and practically, make use of streaming algorithms to achieve these goals. We go through the process of finding suitable variables for our algorithms and using appropriate data structures.
 
 \subsection{Goal}\label{algo-goals}
 Our goal is to find the trending topics on twitter over a given time period. The idea is that our algorithm will be optimized for different intervals, 1-hour and 24-hour periods, and that at any given time it can be queried to get the actual topics trending. Additionally, we wish to find, for these topics, how many distinct tweets are posted to see if popular topics are the result of aggressive re-tweeting or actual interest in the topic as a whole.
@@ -72,7 +72,7 @@ To count the number of distinct values, we initialize a set $KMV_{j}$ for each t
 \end{algorithm}
 
 \subsubsection{Data structure}
-When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation.
+When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency, implemented internally in python as a hashtable. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time, with $k$ being the maximum number of buckets in the dictionary. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation.
 
 \subsubsection{Analysis of algorithm}\label{algo-analysis}
 Misra-Gries uses one pass with worst case running time $O(k)$ for each element of the stream $[n]$. Insertion and increments of a topic takes $O(1)$ time if the length of the dictionary is less than $k$. However the worst case scenario would decrement all values of the dictionary every time the dictionary is full, a maximum of $\frac{k}{n}$ times, so we can argue that the amortized running time for each process is $O(1)$.
