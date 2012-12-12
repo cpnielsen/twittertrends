@@ -1,3 +1,5 @@
+Distinct-k: 10, 20, 30, 40, 50
+
 16: #peopleschoice (distinct: 23.1892260014,20.3270645119 (22), total: 23)
 11: #easilyattractedto (distinct: 28.6624061892 (18), total: 18)
 7: #ptfochristmas (distinct:  (8), total: 10)

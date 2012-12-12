@@ -143,13 +143,13 @@ class TrendingTopics:
             del self.kmvsets[tag]
             del self.totals[tag]
 
-    def kmvdistinct(self, tag, k=[10, 20, 30, 40, 50]):
+    def kmvdistinct(self, tag, k=[25, 50, 75, 100]):
         sorted_set = sorted(self.kmvsets[tag])
         result = []
         for no in k:
             if len(sorted_set) >= no:
                 distinct = (no - 1) / sorted_set[(no - 1)]
-                result.append(str(distinct))
+                result.append(str(round(distinct)))
 
         return u"%s (%d)" % (u",".join(result), len(sorted_set))
 
@@ -215,7 +215,7 @@ class TwitterTrends(StreamListener):
 
 if __name__ == '__main__':
     trends = TwitterTrends()
-    trendtopics = TrendingTopics(trends, 150, 10)
+    trendtopics = TrendingTopics(trends, 150, 60)
     trends.add_subscriber(trendtopics)
     #counter = TweetLengthCounter(60, trends)
     #trends.add_subscriber(counter)
