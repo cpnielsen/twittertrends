@@ -15,14 +15,24 @@ Specifically we want to analyze the Twitter input stream to find tags that that 
 
 \input{frequentitems.tex}
 
-\subsection{Implementation of algorithms}
+\subsection{Finding distinct values}\label{algo-distinct}
+K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, a get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
 
-\subsubsection{Data set}\label{algo-data}
+\subsubsection{Choice of hash function}\label{hash-function}
+As mentioned in section \ref{algo-distinct} it's important to choose a hash function with an evenly dsitributed output to get a good estimate of distinct items with KMV. We are looking for a function that performs well for hashing text of lengths of approx. 3 to 140 characters. 
 
-\subsubsection{Misra-Gries Algorithm}\label{misra-gries}
-The algorithm first initializes a dictionary with $k$ number of values. The keys in the dictionary are elements seen in the stream, and the value are counters associated with the elements. Then there is a process function that is executed each time we see a new element. If a new element is already in the dictionary, it's value will be increased by 1, otherwise if the number of elements in $A$ is less than $k$, the element will be inserted an its value set to 1. If the length of $A$ is equal to $k$, all values are decreased by 1, and removed if the value is equal to 0 \cite{Amit}. Finally we return the key value pairs with the highest frequencies.
+Cpesyna \cite{KMV1} performed an experiment with 4 different hash functions on different kinds of natural language inputs and varying sizes of $k$, among the input types were 99.171 english words, which we expect most of our data to be aswell. It was shown that Murmur3 proved most accurate function staying within the relative error margin for all english words.
 
-We use Misra-Gries to find frequent $topics$ in our data stream of tweets using a one-pass algorithm, see pseudo-code \ref{misra-pseudo} for details.
+\subsection{Implementation}\label{algo-data}
+The pseudo-code in the next section (see \ref{misra-pseudo}) describes our implementation of the \textit{Misra-Gries} algorithm combined with \textit{KMV}.  
+
+\subsubsection{Misra-Gries and KMV design}\label{misra-gries}
+The algorithm first initializes a dictionary of size \textit{k}. The keys in the dictionary correspond to topics \textit{j} encountered in the stream, and the values correspond to the frequency \text{f} of the topic. 
+
+The OnTweet function is executed each time we see a new topic. If the topic is already in the dictionary, it's frequency will be increased by 1, otherwise the topic is added to dictionary with $f_{j}=1$ if the size of $A$ is less than $k$. If the size of $A$ is equal to $k$, all frequencies are decreased by 1, and removed if equal to 0 \cite{Amit}. Finally we return the key value pairs with the highest frequencies.
+\\
+To count the number of distinct values, we initialize a set $KMV_{j}$ for each topic, and aggregate the computed hash value each time we increment the frequency. The function \textit{KMV-Distinct} first sorts the \textit{KMV} set and returns a distinct value count based on the average space between the first \textit{k} values (see \ref{algo-distinct}.
+\\ 
 \begin{algorithm}
 \caption{Misra-Gries Algorithm}\label{misra-pseudo}
 \begin{algorithmic}[1]
@@ -54,16 +64,11 @@ We use Misra-Gries to find frequent $topics$ in our data stream of tweets using 
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
 \subsubsection{Data structure}
 When a new tweet is seen the algorithm has to determine if the contained topic has been seen before. We use a dictionary with key-value pair as topic-frequency. The dictionary provides $O(1)$ time lookup and increment operations. When we decrement all elements by one we iterate over the dictionary which takes $O(k)$ time. Finally we sort the dictionary, but since it's limited to $k$ items, this is not a very time consuming operation.
 
 \subsubsection{Analysis of algorithm}\label{algo-analysis}
 Misra-Gries uses one pass with worst case running time $O(k)$ for each element of the stream $[n]$. Insertion and increments of a topic takes $O(1)$ time if the length of the dictionary is less than $k$. However the worst case scenario would decrement all values of the dictionary every time the dictionary is full, a maximum of $\frac{k}{n}$ times, so we can argue that the amortized running time for each process is $O(1)$.
 
-\subsection{Finding distinct values}\label{algo-distinct}
-K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, a get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
 
-\subsubsection{Choice of hash function}\label{hash-function}
-As mentioned in section \ref{algo-distinct} it's important to choose a hash function with an evenly dsitributed output to get a good estimate of distinct items with KMV. We are looking for a function that performs well for hashing text of lengths of approx. 3 to 140 characters. 
-
-Cpesyna \cite{KMV1} performed an experiment with 4 different hash functions on different kinds of natural language inputs and varying sizes of $k$, among the input types were 99.171 english words, which we expect most of our data to be aswell. It was shown that Murmur3 proved most accurate function staying within the relative error margin for all english words.
