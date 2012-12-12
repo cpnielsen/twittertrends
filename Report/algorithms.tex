@@ -39,8 +39,8 @@ The OnTweet function is executed each time we see a new topic. If the topic is a
 \\
 To count the number of distinct values, we initialize a set $KMV_{j}$ for each topic, and aggregate the computed hash value each time we increment the frequency. The function \textit{KMV-Distinct} first sorts the \textit{KMV} set and returns a distinct value count based on the average space between the first \textit{k} values (see \ref{algo-distinct}).
 \\ 
-\begin{algorithm}
-\caption{Misra-Gries Algorithm}\label{misra-pseudo}
+\begin{algorithm}\scriptsize
+\caption{Trending topics algorithm}\label{misra-pseudo}
 \begin{algorithmic}[1]
 \State $A\gets$ Initialize map
 \State $KMV\gets$ Initialize $KMV_{j}$ set for topic $j$
