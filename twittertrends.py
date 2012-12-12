@@ -1,6 +1,5 @@
 from tweepy import OAuthHandler, Stream
 from tweepy.streaming import StreamListener
-from random import random
 from sets import Set
 import json
 import time
@@ -134,9 +133,7 @@ class TrendingTopics:
     def kmvadd(self, tag, message):
         if tag not in self.kmvsets:
             self.kmvsets[tag] = Set()
-            self.totals[tag] = 0
         self.kmvsets[tag].add(self.hashval(message.encode('utf-8')))
-        self.totals[tag] += 1
 
     def kmvdelete(self, tag):
         if tag in self.kmvsets:
@@ -151,7 +148,7 @@ class TrendingTopics:
                 distinct = (no - 1) / sorted_set[(no - 1)]
                 result.append(unicode(round(distinct)))
 
-        return u"%s (%d)" % (u",".join(result), len(sorted_set))
+        return u"%s" % (u",".join(result))
 
 
     def writeresult(self, amount=10):
@@ -164,8 +161,7 @@ class TrendingTopics:
                 tag = sorted_topics[x][0]
                 count = sorted_topics[x][1]
                 distinct = self.kmvdistinct(tag)
-                totals = self.totals[tag]
-                f.write(u'%d: %s (distinct: %s, total: %d)\n' % (count, tag, distinct, totals))
+                f.write(u'%d: %s (distinct: %s)\n' % (count, tag, distinct))
 
 
 class TwitterTrends(StreamListener):
@@ -218,7 +214,7 @@ class TwitterTrends(StreamListener):
 
 if __name__ == '__main__':
     trends = TwitterTrends()
-    trendtopics = TrendingTopics(trends, 150, 60)
+    trendtopics = TrendingTopics(trends, 150, 120)
     trends.add_subscriber(trendtopics)
     #counter = TweetLengthCounter(60, trends)
     #trends.add_subscriber(counter)

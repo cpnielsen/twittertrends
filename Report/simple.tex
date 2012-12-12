@@ -12,6 +12,24 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{amsmath}
+\usepackage{listings}
+
+\lstset{
+  language=Python,
+  showstringspaces=false,
+  formfeed=\newpage,
+  tabsize=2,
+  commentstyle=\itshape,
+  basicstyle=\scriptsize,
+  morekeywords={models, lambda, forms}
+}
+
+\newcommand{\code}[2]{
+  \hrulefill
+  \subsection*{#1}
+  \lstinputlisting{#2}
+  \vspace{2em}
+}
 
 \begin{document}
 \maketitle
@@ -29,6 +47,8 @@ We have designed an algorithm for identifying trending topics in twitter..
 \input{results.tex}
 
 \input{discussion.tex}
+
+\input{code.tex}
 
 \bibliographystyle{abbrv}
 \bibliography{simple}
