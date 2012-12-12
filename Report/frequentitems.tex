@@ -47,4 +47,4 @@ $\begin{array}{ll}
 Given this data, we can determine an approximation for $k$. We want to include at least the top 10 topics for the time periods, so we maintain two seperate data structures for each. For the 60 minute period, we want topics with a minimum frequency of \textbf{140} occurrences over \textbf{26733} total events. This means we have $k = \frac{26733}{140} \approx 190$. If we take the average of all our samplings, we find the average to be $k = 155$ for a 24-hour period, and $k = 165$ for a 1-hour period. We assumed that $k$ would be larger for the 24 hour period, but as some topics keep repeating frequently spread over a day, they actually require a smaller k for bigger intervals. Also, our samples are not for longer periods (months), so this might not be completely accurate.
 \\
 \\
-We discuss the results and our conclusions in section \ref{trending-discussion}
+We discuss the results and our conclusions in section \ref{conclusions}

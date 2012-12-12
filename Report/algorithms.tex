@@ -24,6 +24,34 @@ To achieve this, we need to make use of streaming, lossy algorithms, for two maj
 \subsection{Finding distinct values}\label{algo-distinct}
 K-minimum values (KMV) is is a probalistic distinct value counting algorithm, that is intuitive and easy to implement \cite{kmv}. Suppose we have a good hash function that return evenly distributed values in the hash space $[0-1]$, then you could estimate the number of distinct values you have seen by knowing the average spacing between values in the hash space. The main challenge is to find a good hash function, and to select the number of minimum $k$ values on which to approximate the average spacing. If the hash values were indeed evenly distributed, we could keep just keep track of the minimum value, a get a good estimate of distinct values. However taking only one value opens up to a lot of variance and would rely heavily upon the``goodness'' of the hash function. In order to improve this Bar-Yossef\cite{Bar-Yossef} suggests keeping the k-smallest values, to give a more realistic estimate.
 
+We found it hard to find a suitable value for \textit{k}, and as can be seen from our implementation we tried improvising a list of different possible \textit{k-values}. Below is a sample we tried with \textit{k-values} $= \langle 25, 50, 75, 100 \rangle$. The sample uses this format:
+\begin{quote}
+    Misra-Gries value: \#topic (distinct: k=25 value, k=50 value, k=75 value, k=100 values (true value), total: total tweets)
+\end{quote}
+{\footnotesize
+$\begin{array}{lll}
+        836: & \#peopleschoice & (distinct: 1236.0,1291.0,1088.0,1050.0 (1021), total: 1093) \\
+        616: & \#replaceadisneymoviewithnigga & (distinct: 655.0,711.0,631.0,702.0 (729), total: 873) \\
+        447: & \#breakoutartist & (distinct: 899.0,787.0,708.0,696.0 (647), total: 704) \\
+        319: & \#letsmakeitawkward & (distinct: 551.0,551.0,479.0,478.0 (566), total: 576) \\
+        270: & \#personasquenoquieroperdernunca & (distinct: 432.0,445.0,468.0,451.0 (517), total: 526) \\
+        191: & \#somethingigetalot & (distinct: 334.0,272.0,301.0,298.0 (286), total: 304) \\
+        183: & \#myfavoritemoviequote & (distinct: 452.0,336.0,356.0,348.0 (396), total: 440) \\
+        95: & \#easilyattractedto & (distinct: 310.0,352.0,329.0,336.0 (336), total: 347) \\
+        73: & \#teamfollowback & (distinct: 297.0,264.0,244.0,240.0 (242), total: 330) \\
+        62: & \#confissoesdamadrugada & (distinct: 313.0,258.0,271.0,277.0 (277), total: 302) \\
+\end{array}$}
+
+This gives us the the following average deviations from the true count for different $k-values$:
+\begin{itemize}
+    \item k=25 - average deviation: 0.147
+    \item k=50 - average deviation: 0.101
+    \item k=75 - average deviation: 0.073
+    \item k=100 - average deviation: 0.060
+\end{itemize}
+
+As we can see from our sample, we are guaranteed to have at least 100 distinct tweets (for our sample population) for top 10 topics, and 6 percent average deviation is decent. As such, we will use \textit{k = 100} when calculating our K-min value. We could push it further up for increased accuracy, but making use of the full possible value for \textit{k} would defeat the purpose of the algorithm, which is to estimate the distinct count without actually running through all the hashed values. After a couple of weeks running, it is likely this count would have risen a lot if the same topics stay in trending topics.
+
 \subsubsection{Choice of hash function}\label{hash-function}
 As mentioned in section \ref{algo-distinct} it's important to choose a hash function with an evenly dsitributed output to get a good estimate of distinct items with KMV. We are looking for a function that performs well for hashing text of lengths of approx. 3 to 140 characters. 
 
