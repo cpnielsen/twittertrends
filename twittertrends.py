@@ -149,7 +149,7 @@ class TrendingTopics:
         for no in k:
             if len(sorted_set) >= no:
                 distinct = (no - 1) / sorted_set[(no - 1)]
-                result.append(str(round(distinct)))
+                result.append(unicode(round(distinct)))
 
         return u"%s (%d)" % (u",".join(result), len(sorted_set))
 
@@ -162,7 +162,10 @@ class TrendingTopics:
 
             for x in xrange(amount):
                 tag = sorted_topics[x][0]
-                f.write(u'%d: %s (distinct: %s, total: %d)\n' % (sorted_topics[x][1], tag, self.kmvdistinct(tag), self.totals[tag]))
+                count = sorted_topics[x][1]
+                distinct = self.kmvdistinct(tag)
+                totals = self.totals[tag]
+                f.write(u'%d: %s (distinct: %s, total: %d)\n' % (count, tag, distinct, totals))
 
 
 class TwitterTrends(StreamListener):
