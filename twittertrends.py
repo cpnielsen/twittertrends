@@ -5,7 +5,8 @@ from sets import Set
 import json
 import time
 import operator
-import smhasher 
+import smhasher
+import math
 
 CONSUMER_KEY="2XhwGwTJefx4aD2xdo4UoQ"
 CONSUMER_SECRET="yX5WYFz9LugOWyMgtkv4iWOvhBjGGZStmA61icFyi4"
@@ -16,7 +17,7 @@ ACCESS_TOKEN_SECRET="9gmuOaf9pf1nUV3Z87XDLL9Fwh47JTQonlinGinPRE"
 FILENAME_COUNT = "simplecount"
 LENGTH_COUNT = "tweetlength"
 
-INT_64_MAX = 2^64 - 1
+INT_64_MAX = math.pow(2, 64) - 1
 
 class Tweet:
     def __init__(self, message, topics, time, user):
@@ -103,7 +104,9 @@ class TrendingTopics:
     def on_tweet(self, tweet):
         if time.time() > self.targettime:
             self.writeresult()
-            self.client.stop()
+            self.client.remove_subscriber(self)
+            print 'Done'
+            return
         for tag in tweet.topics:
             if tag in self.topics:
                 self.topics[tag] += 1
@@ -145,20 +148,21 @@ class TrendingTopics:
         result = []
         for no in k:
             if len(sorted_set) >= no:
-                distinct = 1 / (sum(sorted_set[:no]) / k)
-                result.append(distinct)
+                distinct = (no - 1) / sorted_set[(no - 1)]
+                result.append(str(distinct))
 
-        print "%s (%d)" % (','.join(result), len(sorted_set))
+        return u"%s (%d)" % (u",".join(result), len(sorted_set))
 
 
     def writeresult(self, amount=10):
-        with open("trending" + str(self.runningtime) + ".txt", 'w') as f:
+        print "Saving to file..."
+        with open("trending" + str(self.minutes) + ".txt", 'w') as f:
             sorted_topics = sorted(self.topics.iteritems(), key=operator.itemgetter(1))
             sorted_topics.reverse()
 
             for x in xrange(amount):
                 tag = sorted_topics[x][0]
-                f.write(u'%d: %s (distinct: %s, total: %d)' % (sorted_topics[x][1], tag, self.kmvdistinct(tag), self.totals[tag]))
+                f.write(u'%d: %s (distinct: %s, total: %d)\n' % (sorted_topics[x][1], tag, self.kmvdistinct(tag), self.totals[tag]))
 
 
 class TwitterTrends(StreamListener):
@@ -178,7 +182,7 @@ class TwitterTrends(StreamListener):
             # Only include tweets that has a "topic", in this case one or more hashtags
             if "entities" in processed:
                 if len(processed['entities']['hashtags']) > 0:
-                    tags = ["#" + t['text'].lower() for t in processed['entities']['hashtags']]
+                    tags = [u"#" + t['text'].lower() for t in processed['entities']['hashtags']]
                     user = processed['user']['screen_name']
                     text = processed['text']
                     time = processed['created_at']
@@ -200,25 +204,20 @@ class TwitterTrends(StreamListener):
     def remove_subscriber(self, subscriber):
         self.subscribers.remove(subscriber)
 
-    def start(self, topics=['*']):
+    def start(self):
         self.stream.sample()
 
     def stop(self):
+        print 'Stopped'
         self.stream.disconnect()
 
 
 
 if __name__ == '__main__':
     trends = TwitterTrends()
-    trendtopics = TrendingTopics(trends, 150, 5)
+    trendtopics = TrendingTopics(trends, 150, 10)
     trends.add_subscriber(trendtopics)
     #counter = TweetLengthCounter(60, trends)
     #trends.add_subscriber(counter)
     #hashf = smhasher.murmur3_x64_64
     trends.start()
-
-    while True:
-        try:
-            time.sleep(10)
-        except KeyboardInterrupt:
-            trends.stop()
